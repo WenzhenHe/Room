@@ -150,27 +150,15 @@ class Model
             for (int i = 0; i < f_num; i++)
             {
                 glBegin(GL_TRIANGLES);
+                glTexCoord2f(vtArr[fvtArr[i][0]][0], vtArr[fvtArr[i][0]][1]);
                 glVertex3f(vArr[fvArr[i][0]][0], vArr[fvArr[i][0]][1], vArr[fvArr[i][0]][2]);
+                glTexCoord2f(vtArr[fvtArr[i][1]][0], vtArr[fvtArr[i][1]][1]);
                 glVertex3f(vArr[fvArr[i][1]][0], vArr[fvArr[i][1]][1], vArr[fvArr[i][1]][2]);
-                glVertex3f(vArr[fvArr[i][2]][0], vArr[fvArr[i][2]][1], vArr[fvArr[i][2]][2]);
+                glTexCoord2f(vtArr[fvtArr[i][2]][0], vtArr[fvtArr[i][2]][1]);
+				glVertex3f(vArr[fvArr[i][2]][0], vArr[fvArr[i][2]][1], vArr[fvArr[i][2]][2]);
                 glEnd();
             }
         }
-        //加载纹理
-        //void Texture(const char *iamgepath) {
-//            GLuint textureId;
-//            glEnable(GL_TEXTURE_2D); 
-//            glGenTextures(1, &textureId);
-//            glBindTexture(GL_TEXTURE_2D, textureId);
-//            
-//            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-//            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-//            
-//            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-//            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-//            
-//            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imagewidth,imageheight, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData); // 定义纹理图像
-//        }
     
     private:
         int v_num;
