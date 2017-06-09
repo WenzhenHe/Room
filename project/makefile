@@ -1,5 +1,5 @@
 ifeq ($(OS),Windows_NT)
-LDFLAGS=libSOIL.a -lfreeglut -lopengl32 -Wl,--subsystem,windows -lglu32
+LDFLAGS=libSOIL.a -lfreeglut -lglu32 -lopengl32 -Wl,--subsystem,windows
 EXECUTABLE=main.exe
 else
 LDFLAGS=-lGL -lglut

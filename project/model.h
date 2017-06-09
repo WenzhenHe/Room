@@ -151,10 +151,15 @@ class Model
             {
                 glBegin(GL_TRIANGLES);
                 glTexCoord2f(vtArr[fvtArr[i][0]][0], vtArr[fvtArr[i][0]][1]);
+                glNormal3f(vnArr[fvnArr[i][0]][0],vnArr[fvnArr[i][0]][1],vnArr[fvnArr[i][0]][2]);
                 glVertex3f(vArr[fvArr[i][0]][0], vArr[fvArr[i][0]][1], vArr[fvArr[i][0]][2]);
+                
                 glTexCoord2f(vtArr[fvtArr[i][1]][0], vtArr[fvtArr[i][1]][1]);
+                glNormal3f(vnArr[fvnArr[i][1]][0],vnArr[fvnArr[i][1]][1],vnArr[fvnArr[i][1]][2]);
                 glVertex3f(vArr[fvArr[i][1]][0], vArr[fvArr[i][1]][1], vArr[fvArr[i][1]][2]);
+                
                 glTexCoord2f(vtArr[fvtArr[i][2]][0], vtArr[fvtArr[i][2]][1]);
+                glNormal3f(vnArr[fvnArr[i][2]][0],vnArr[fvnArr[i][2]][1],vnArr[fvnArr[i][2]][2]);
 				glVertex3f(vArr[fvArr[i][2]][0], vArr[fvArr[i][2]][1], vArr[fvArr[i][2]][2]);
                 glEnd();
             }
