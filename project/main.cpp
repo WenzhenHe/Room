@@ -20,9 +20,60 @@ void LoadTexture(const char *imagepath, GLuint textureId) {
     int picWidth, picHeight;
     imageData = SOIL_load_image(imagepath, &picWidth, &picHeight, 0, SOIL_LOAD_RGB);
     gluBuild2DMipmaps(GL_TEXTURE_2D,GL_RGBA,picWidth,picHeight,GL_RGB,GL_UNSIGNED_BYTE,imageData);
-    glTexEnvi(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_MODULATE);
     imageData=NULL;
 } 
+
+//天空盒
+void skybox(float x, float y, float z, float box_width, float box_height, float box_length) {
+    //背面 
+    glBindTexture(GL_TEXTURE_2D, 4);
+    glBegin(GL_QUADS);
+    	glTexCoord2f(1.0f, 1.0f); glVertex3f(x + box_width/2+0.1, y-0.1, z - box_length/2);
+        glTexCoord2f(1.0f, 0.0f); glVertex3f(x + box_width/2+0.1, y + box_height+0.1, z - box_length/2); 
+        glTexCoord2f(0.0f, 0.0f); glVertex3f(x - box_width/2-0.1, y + box_height+0.1, z - box_length/2);
+        glTexCoord2f(0.0f, 1.0f); glVertex3f(x - box_width/2-0.1, y-0.1, z - box_length/2);
+    glEnd();
+    //前面 
+    glBindTexture(GL_TEXTURE_2D, 6);
+    glBegin(GL_QUADS);
+    	glTexCoord2f(0.0f, 1.0f); glVertex3f(x + box_width/2+0.1, y-0.1, z + box_length/2);
+        glTexCoord2f(0.0f, 0.0f); glVertex3f(x + box_width/2+0.1, y + box_height+0.1, z + box_length/2); 
+        glTexCoord2f(1.0f, 0.0f); glVertex3f(x - box_width/2-0.1, y + box_height+0.1, z + box_length/2);
+        glTexCoord2f(1.0f, 1.0f); glVertex3f(x - box_width/2-0.1, y-0.1, z + box_length/2);
+    glEnd();
+    //右面 
+    glBindTexture(GL_TEXTURE_2D, 8);
+    glBegin(GL_QUADS);
+    	glTexCoord2f(1.0f, 1.0f); glVertex3f(x + box_width/2, y-0.1, z + box_length/2+0.1);
+        glTexCoord2f(1.0f, 0.0f); glVertex3f(x + box_width/2, y + box_height+0.1, z + box_length/2+0.1); 
+        glTexCoord2f(0.0f, 0.0f); glVertex3f(x + box_width/2, y + box_height+0.1, z - box_length/2-0.1);
+        glTexCoord2f(0.0f, 1.0f); glVertex3f(x + box_width/2, y-0.1, z - box_length/2-0.1);
+    glEnd();
+    //左面 
+    glBindTexture(GL_TEXTURE_2D, 7);
+    glBegin(GL_QUADS);
+    	glTexCoord2f(0.0f, 1.0f); glVertex3f(x - box_width/2, y-0.1, z + box_length/2+0.1);
+        glTexCoord2f(0.0f, 0.0f); glVertex3f(x - box_width/2, y + box_height+0.1, z + box_length/2+0.1); 
+        glTexCoord2f(1.0f, 0.0f); glVertex3f(x - box_width/2, y + box_height+0.1, z - box_length/2-0.1);
+        glTexCoord2f(1.0f, 1.0f); glVertex3f(x - box_width/2, y-0.1, z - box_length/2-0.1);
+    glEnd();
+    //上面
+	glBindTexture(GL_TEXTURE_2D, 9);
+	glBegin(GL_QUADS);
+		glTexCoord2f(1.0f, 1.0f); glVertex3f(x + box_width/2+0.1, y + box_height, z - box_length/2-0.1); 
+        glTexCoord2f(0.0f, 1.0f); glVertex3f(x - box_width/2-0.1, y + box_height, z - box_length/2-0.1);
+        glTexCoord2f(0.0f, 0.0f); glVertex3f(x - box_width/2-0.1, y + box_height, z + box_length/2+0.1);
+        glTexCoord2f(1.0f, 0.0f); glVertex3f(x + box_width/2+0.1, y + box_height, z + box_length/2+0.1); 
+    glEnd();
+    //下面 
+    glBindTexture(GL_TEXTURE_2D, 5);
+	glBegin(GL_QUADS);
+		glTexCoord2f(1.0f, 0.0f); glVertex3f(x + box_width/2+0.1, y, z - box_length/2-0.1); 
+        glTexCoord2f(0.0f, 0.0f); glVertex3f(x - box_width/2-0.1, y, z - box_length/2-0.1);
+        glTexCoord2f(0.0f, 1.0f); glVertex3f(x - box_width/2-0.1, y, z + box_length/2+0.1);
+        glTexCoord2f(1.0f, 1.0f); glVertex3f(x + box_width/2+0.1, y, z + box_length/2+0.1); 
+    glEnd();
+}    
 
 //初始化 
 void init() {
@@ -36,11 +87,18 @@ void init() {
     chairs->LoadModel("model/chairs.obj");
     screen->LoadModel("model/screen.obj");
     //加载纹理 
-    GLuint texture_ID_list[3];
-	glGenTextures(3, texture_ID_list);
+    GLuint texture_ID_list[9];
+	glGenTextures(9, texture_ID_list);
 	LoadTexture("image/wall.jpg", 1);
     LoadTexture("image/desk.jpg", 2);
     LoadTexture("image/screen.jpg", 3);
+    
+    LoadTexture("image/sky_bk.jpg", 4);
+    LoadTexture("image/sky_dn.jpg", 5);
+    LoadTexture("image/sky_ft.jpg", 6);
+    LoadTexture("image/sky_lf.jpg", 7);
+    LoadTexture("image/sky_rt.jpg", 8);
+    LoadTexture("image/sky_up.jpg", 9);
 }
 
 //显示回调函数 
@@ -60,6 +118,10 @@ void renderScene() {
     chairs->Flat();
     glBindTexture(GL_TEXTURE_2D, 3);
     screen->Flat();
+    
+    glDisable(GL_LIGHTING);
+    skybox(0, 0, 0, 50, 20, 50); 
+    glEnable(GL_LIGHTING); 
     
     glFlush();
     glutSwapBuffers();
@@ -109,7 +171,7 @@ int main(int argc, char *argv[]) {
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGB | GLUT_MULTISAMPLE);
     glutInitWindowPosition(0, 0);
     glutInitWindowSize(500, 500);
-    glutCreateWindow("MeshView");
+    glutCreateWindow("Room");
     init();
     glutDisplayFunc(renderScene);
     glutIdleFunc(renderScene);
